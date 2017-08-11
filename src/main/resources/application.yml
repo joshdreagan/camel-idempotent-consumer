@@ -1,0 +1,42 @@
+# Servlet Container & Health Setup
+server:
+  address: 0.0.0.0
+management:
+  address: 0.0.0.0
+  port: 8081
+endpoints:
+  enabled: false
+  health:
+    enabled: true
+
+# Spring Boot
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/example?autoReconnect=true&useSSL=false
+    username: root
+    password: Abcd1234
+    schema: classpath:META-INF/sql/schema.sql
+    schemaUsername: ${spring.datasource.username}
+    schemaPassword: ${spring.datasource.password}
+
+# Camel Spring Boot
+camel:
+  springboot:
+    name: CamelIdempotentConsumer
+    main-run-controller: true
+  component:
+    jms:
+      recoveryInterval: 30000
+
+# Logging
+logging:
+  level:
+    #org.apache.camel: DEBUG
+
+# Application
+application:
+  file:
+    messagesDirectory: target/messages
+    processedDirectory: target/processed
+  sql:
+    messagesTable: MESSAGES
